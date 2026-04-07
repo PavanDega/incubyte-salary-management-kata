@@ -25,4 +25,6 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
->>>>>>> bc583d4 (chore: initial rails api setup with rspec)
+Note:
+GitHub Classroom link was not accessible due to repository access issue.
+As per instructions, created a public repository and completed the assignment here.
