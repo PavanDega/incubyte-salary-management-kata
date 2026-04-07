@@ -1,28 +1,26 @@
-<<<<<<< HEAD
-# incubyte-salary-management-kata
-=======
-# README
+# Salary Management API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setup
+bundle install
+rails db:create db:migrate
+rails s
 
-Things you may want to cover:
+## APIs
+POST /employees
+GET /employees
+GET /employees/:id
+PUT /employees/:id
+DELETE /employees/:id
 
-* Ruby version
+GET /employees/:id/salary
+GET /metrics/country?name=India
+GET /metrics/job?title=Dev
 
-* System dependencies
+## AI Usage
+Used ChatGPT for:
+- Code structure
+- Test cases
+- API design
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
->>>>>>> bc583d4 (chore: initial rails api setup with rspec)
+## Note
+GitHub Classroom was not accessible, so created public repo.
