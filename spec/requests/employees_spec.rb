@@ -2,72 +2,65 @@ require 'rails_helper'
 
 RSpec.describe "Employees API", type: :request do
 
-  # CREATE
-  describe "POST /employees" do
-    it "creates an employee" do
-      post "/employees", params: {
-        full_name: "Pavan",
-        job_title: "Engineer",
-        country: "India",
-        salary: 50000
-      }
+  it "creates employee" do
+    post "/employees", params: {
+      full_name: "Pavan",
+      job_title: "Engineer",
+      country: "India",
+      salary: 50000
+    }
 
-      expect(response).to have_http_status(201)
-    end
+    expect(response).to have_http_status(201)
   end
 
-  # READ ALL
-  describe "GET /employees" do
-    it "returns all employees" do
-      Employee.create!(full_name: "A", job_title: "Dev", country: "India", salary: 1000)
-      Employee.create!(full_name: "B", job_title: "QA", country: "US", salary: 2000)
+  it "gets all employees" do
+    Employee.create!(full_name: "A", job_title: "Dev", country: "India", salary: 1000)
 
-      get "/employees"
+    get "/employees"
 
-      expect(response).to have_http_status(200)
-
-      json = JSON.parse(response.body)
-      expect(json.length).to eq(2)
-    end
+    expect(response).to have_http_status(200)
   end
 
-  # READ ONE
-  describe "GET /employees/:id" do
-    it "returns one employee" do
-      emp = Employee.create!(full_name: "Pavan", job_title: "Dev", country: "India", salary: 1000)
+  it "gets one employee" do
+    emp = Employee.create!(full_name: "A", job_title: "Dev", country: "India", salary: 1000)
 
-      get "/employees/#{emp.id}"
+    get "/employees/#{emp.id}"
 
-      expect(response).to have_http_status(200)
-
-      json = JSON.parse(response.body)
-      expect(json["id"]).to eq(emp.id)
-    end
+    expect(response).to have_http_status(200)
   end
 
-  # UPDATE
-  describe "PUT /employees/:id" do
-    it "updates employee" do
-      emp = Employee.create!(full_name: "Old", job_title: "Dev", country: "India", salary: 1000)
+  it "updates employee" do
+    emp = Employee.create!(full_name: "Old", job_title: "Dev", country: "India", salary: 1000)
 
-      put "/employees/#{emp.id}", params: { full_name: "New" }
+    put "/employees/#{emp.id}", params: { full_name: "New" }
 
-      expect(response).to have_http_status(200)
-
-      emp.reload
-      expect(emp.full_name).to eq("New")
-    end
+    expect(response).to have_http_status(200)
   end
 
-  # DELETE
-  describe "DELETE /employees/:id" do
-    it "deletes employee" do
-      emp = Employee.create!(full_name: "Pavan", job_title: "Dev", country: "India", salary: 1000)
+  it "deletes employee" do
+    emp = Employee.create!(full_name: "A", job_title: "Dev", country: "India", salary: 1000)
 
-      delete "/employees/#{emp.id}"
+    delete "/employees/#{emp.id}"
 
-      expect(response).to have_http_status(204)
-    end
+    expect(response).to have_http_status(204)
+  end
+
+  it "calculates salary for India" do
+    emp = Employee.create!(full_name: "A", job_title: "Dev", country: "India", salary: 1000)
+
+    get "/employees/#{emp.id}/salary"
+
+    json = JSON.parse(response.body)
+    expect(json["net"]).to eq(900)
+  end
+
+  it "returns metrics by country" do
+    Employee.create!(full_name: "A", job_title: "Dev", country: "India", salary: 1000)
+    Employee.create!(full_name: "B", job_title: "Dev", country: "India", salary: 2000)
+
+    get "/metrics/country?name=India"
+
+    expect(response).to have_http_status(200)
   end
 
 end

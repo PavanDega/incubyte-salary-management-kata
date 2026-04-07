@@ -26,6 +26,23 @@ class EmployeesController < ApplicationController
     head :no_content
   end
 
+  def salary
+    emp = Employee.find(params[:id])
+
+    deduction =
+        case emp.country
+        when "India" then emp.salary * 0.1
+        when "United States" then emp.salary * 0.12
+        else 0
+        end
+
+    render json: {
+        gross: emp.salary,
+        deduction: deduction,
+        net: (emp.salary - deduction).to_i
+    }
+  end
+
   private
 
   def employee_params

@@ -9,5 +9,12 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   # config/routes.rb
-  resources :employees
+  resources :employees do
+    member do
+      get :salary
+    end
+  end
+
+  get "/metrics/country", to: "metrics#country"
+  get "/metrics/job", to: "metrics#job"
 end
