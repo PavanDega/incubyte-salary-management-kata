@@ -4,6 +4,7 @@ class EmployeesController < ApplicationController
     render json: employee, status: :created
   end
 
+  
   private
 
   def employee_params
